@@ -29,21 +29,6 @@ beacon:
 ...
 ```
 
-```shell
-...
-checkpointz:
-  # if mode is set to full prysm needs to be synced from genesis
-  # NOT from checkpoint sync from another endpoint!
-  mode: full
-
-beacon:
-  upstreams:
-  - name: Prysm Consensus Client (from genesis)
-    address: http://localhost:3500
-    dataProvider: true
-...
-```
-
 ## Build with
 * [samcm/checkpointz](https://github.com/samcm/checkpointz) - An Ethereum beacon chain checkpoint sync provider 
 * [Alpine Linux](https://alpinelinux.org/) - Alpine Linux
@@ -51,4 +36,5 @@ beacon:
 
 ## Tipps
 * Use a webproxy to terminate the SSL connection and proxy to :5555 of this container (like nginx)
-* If you use prysm and want to provide states, you need a prysm synced from genesis!
+* If you use prysm and want to provide states, you need a prysm synced from genesis (~5M blocks)!
+* Use [telegraf](https://github.com/influxdata/telegraf) to export :9090 to [influxdb](https://github.com/influxdata/influxdb)

@@ -25,7 +25,7 @@ checkpointz:
     #brand_image_url: /logo.png
     # The name of the brand to display on the frontend (optional)
     #brand_name: Brandname
-    # The public URL of where the frontend will be served from (optional)
+    # The public URL of where the frontend will be served from (optional) - can not end with /
     #public_url: https://www.domain.com
 
 beacon:
