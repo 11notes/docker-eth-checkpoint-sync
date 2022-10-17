@@ -1,5 +1,9 @@
-# docker-eth-checkpoint
+# Info
 Provides checkpoint sync for Ethereum consensus clients.
+
+Like a proxy server checkpointz allows others to sync current blocks and states from your consensus clients in a save and secure manner. A list of supported clients and more can be found on the [samcm/checkpointz github](https://github.com/samcm/checkpointz).
+
+This container provides an easy and simple way to use checkpointz without the hassle of library dependencies and compiling the source yourself.
 
 ## Volumes
 None
@@ -44,3 +48,7 @@ beacon:
 * [samcm/checkpointz](https://github.com/samcm/checkpointz) - An Ethereum beacon chain checkpoint sync provider 
 * [Alpine Linux](https://alpinelinux.org/) - Alpine Linux
 * [NodeJS](https://nodejs.org/en/) - NodeJS
+
+## Tipps
+* Use a webproxy to terminate the SSL connection and proxy to :5555 of this container (like nginx)
+* If you use prysm and want to provide states, you need a prysm synced from genesis!
