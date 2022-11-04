@@ -1,6 +1,6 @@
 # :: Build
 	FROM golang:alpine as checkpointz
-	ENV checkout=v0.11.2
+	ENV checkout=v0.11.3
 
     RUN set -ex; \
         apk add --update --no-cache \
@@ -8,14 +8,15 @@
             make \
             npm \
             git; \
-        git clone https://github.com/samcm/checkpointz.git; \
+        git clone https://github.com/ethpandaops/checkpointz.git; \
         cd /go/checkpointz; \
 		git checkout ${checkout}; \
         make -j $(nproc); \
         CGO_ENABLED=0 go build -o /usr/local/bin/checkpointz .;
 
+
 # :: Header
-	FROM alpine:3.16
+	FROM alpine:latest
 	COPY --from=checkpointz /usr/local/bin// /usr/local/bin
 
 # :: Run
