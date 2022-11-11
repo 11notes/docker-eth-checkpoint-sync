@@ -1,6 +1,6 @@
 # :: Build
 	FROM golang:alpine as checkpointz
-	ENV checkout=v0.11.3
+	ENV checkout=v0.12.0
 
     RUN set -ex; \
         apk add --update --no-cache \
