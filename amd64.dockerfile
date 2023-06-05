@@ -14,7 +14,6 @@
     make -j $(nproc); \
     CGO_ENABLED=0 go build -o /usr/local/bin/checkpointz .;
 
-
 # :: Header
   FROM 11notes/alpine:stable
   COPY --from=build /usr/local/bin/ /usr/local/bin
@@ -29,7 +28,8 @@
 
     RUN set -ex; \
       apk add --update --no-cache \
-      curl;
+        curl;\
+      apk upgrade;
 
     RUN set -ex; \
       addgroup --gid 1000 -S chkpnt; \
@@ -42,8 +42,8 @@
 
 # :: docker -u 1000:1000 (no root initiative)
   RUN set -ex; \
-    chown -R chkpnt:chkpnt;
-      
+    chown -R chkpnt:chkpnt \
+				/checkpoint;      
 
 # :: Monitor
   HEALTHCHECK CMD /usr/local/bin/healthcheck.sh || exit 1
