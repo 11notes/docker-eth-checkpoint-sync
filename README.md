@@ -3,7 +3,7 @@ Provides checkpoint sync for Ethereum consensus clients.
 
 Like a proxy server checkpointz allows others to sync current blocks and states from your consensus clients in a save and secure manner. A list of supported clients and more can be found on the [samcm/checkpointz github](https://github.com/samcm/checkpointz).
 
-This container provides an easy and simple way to use checkpointz without the hassle of library dependencies and compiling the source yourself.
+This container provides an easy and simple way to use checkpointz without the hassle of library dependencies and compiling the source yourself, and most importantly without the need of a debian based Linux.
 
 ## Volumes
 None

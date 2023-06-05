@@ -1,7 +1,7 @@
 #!/bin/ash
-if [ -z "$1" ]; then
+  if [ -z "$1" ]; then
     set -- "checkpointz" \
-        --config /checkpoint/etc/config.yaml
-fi
+      --config /checkpoint/etc/config.yaml
+  fi
 
-exec "$@"
+  exec "$@"
