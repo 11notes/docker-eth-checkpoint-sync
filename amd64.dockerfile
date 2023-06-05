@@ -8,9 +8,23 @@
       make \
       npm \
       git; \
+    apk upgrade; \
     git clone https://github.com/ethpandaops/checkpointz.git; \
     cd /go/checkpointz; \
-    git checkout ${checkout}; \
+    go get -u all; \
+    git checkout ${checkout};
+
+  # fix security
+  # https://nvd.nist.gov/vuln/detail/CVE-2022-41721⁠
+  # https://nvd.nist.gov/vuln/detail/CVE-2022-27664⁠
+  RUN set -ex; \
+    sed -i 's#go 1.17#go 1.20#g' /go/checkpointz/go.mod; \
+    sed -i 's#golang.org/x/net v0.0.0-[0-9]\+-[0-9]\+#golang.org/x/net v0.10.0#g' /go/checkpointz/go.mod; \
+    cd /go/checkpointz; \
+    go mod tidy;
+
+  RUN set -ex; \
+    cd /go/checkpointz; \
     make -j $(nproc); \
     CGO_ENABLED=0 go build -o /usr/local/bin/checkpointz .;
 
@@ -21,33 +35,35 @@
 # :: Run
   USER root
 
-  # :: prepare
+  # :: update image
+    RUN set -ex; \
+      apk update; \
+      apk upgrade;
+
+  # :: prepare image
     RUN set -ex; \
       mkdir -p /checkpoint; \
       mkdir -p /checkpoint/etc;
-
-    RUN set -ex; \
-      apk add --update --no-cache \
-        curl;\
-      apk upgrade;
-
-    RUN set -ex; \
-      addgroup --gid 1000 -S chkpnt; \
-      adduser --uid 1000 -D -S -h /checkpoint -s /sbin/nologin -G chkpnt chkpnt;
 
   # :: copy root filesystem changes
     COPY ./rootfs /
     RUN set -ex; \
       chmod +x -R /usr/local/bin
 
-# :: docker -u 1000:1000 (no root initiative)
-  RUN set -ex; \
-    chown -R chkpnt:chkpnt \
-				/checkpoint;      
+  # :: copy root filesystem changes and add execution rights to init scripts
+    COPY ./rootfs /
+    RUN set -ex; \
+      chmod +x -R /usr/local/bin
+
+  # :: change home path for existing user and set correct permission
+    RUN set -ex; \
+      usermod -d /checkpoint docker; \
+      chown -R 1000:1000 \
+        /checkpoint;   
 
 # :: Monitor
   HEALTHCHECK CMD /usr/local/bin/healthcheck.sh || exit 1
 
 # :: Start
-  USER chkpnt
+  USER docker
   ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

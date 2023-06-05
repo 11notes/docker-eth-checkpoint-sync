@@ -1,40 +1,31 @@
-# Info
-Provides checkpoint sync for Ethereum consensus clients.
+# Alpine :: Ethereum Checkpoint Sync
 
-Like a proxy server checkpointz allows others to sync current blocks and states from your consensus clients in a save and secure manner. A list of supported clients and more can be found on the [samcm/checkpointz github](https://github.com/samcm/checkpointz).
-
-This container provides an easy and simple way to use checkpointz without the hassle of library dependencies and compiling the source yourself, and most importantly without the need of a debian based Linux.
+Run an Ethereum checkpoint sync node based on Alpine Linux. Small, lightweight, secure and fast.
 
 ## Volumes
-None
+* **/checkpoint/etc** - Directory of config.yaml
 
 ## Run
 ```shell
-docker run --name checkpoint \
-    -v /.../config.yaml:/checkpoint/etc/config.yaml:ro \
-    -d 11notes/checkpoint:[tag]
+docker run --name eth-checkpoint-sync \
+  -v ../checkpoint/etc:/checkpoint/etc \
+  -d 11notes/eth-checkpoint-sync:[tag]
 ```
 
-# Examples config.yaml
-```shell
-...
-checkpointz:
-  mode: light
+## Defaults
+| Parameter | Value | Description |
+| --- | --- | --- |
+| `user` | docker | user docker |
+| `uid` | 1000 | user id 1000 |
+| `gid` | 1000 | group id 1000 |
 
-beacon:
-  upstreams:
-  - name: Prysm Consensus Client
-    address: http://localhost:3500
-    dataProvider: true
-...
-```
-
-## Build with
-* [samcm/checkpointz](https://github.com/samcm/checkpointz) - An Ethereum beacon chain checkpoint sync provider 
-* [Alpine Linux](https://alpinelinux.org/) - Alpine Linux
-* [NodeJS](https://nodejs.org/en/) - NodeJS
+## Built with
+* [Checkpointz](https://github.com/ethpandaops/checkpointz)
+* [Alpine Linux](https://alpinelinux.org/)
 
 ## Tipps
 * Use a webproxy to terminate the SSL connection and proxy to :5555 of this container (like nginx)
 * If you use prysm and want to provide states, you need a prysm synced from genesis (~5M blocks)!
 * Use [telegraf](https://github.com/influxdata/telegraf) to export :9090 to [influxdb](https://github.com/influxdata/influxdb)
+* Don't bind to ports < 1024 (requires root), use NAT/reverse proxy
+* [Permanent Stroage](https://github.com/11notes/alpine-docker-netshare) - Module to store permanent container data via NFS/CIFS and more
