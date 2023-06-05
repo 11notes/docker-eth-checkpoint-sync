@@ -11,15 +11,13 @@
     apk upgrade; \
     git clone https://github.com/ethpandaops/checkpointz.git; \
     cd /go/checkpointz; \
-    go get -u all; \
     git checkout ${checkout};
 
   # fix security
   # https://nvd.nist.gov/vuln/detail/CVE-2022-41721⁠
   # https://nvd.nist.gov/vuln/detail/CVE-2022-27664⁠
   RUN set -ex; \
-    sed -i 's#go 1.17#go 1.20#g' /go/checkpointz/go.mod; \
-    sed -i 's#golang.org/x/net v0.0.0-[0-9]\+-[0-9]\+#golang.org/x/net v0.10.0#g' /go/checkpointz/go.mod; \
+    sed -i 's#golang.org/x/net v0.0.0-[0-9]\+-[0-9a-f]\+#golang.org/x/net v0.7.0#g' /go/checkpointz/go.mod; \
     cd /go/checkpointz; \
     go mod tidy;
 
@@ -45,15 +43,10 @@
       mkdir -p /checkpoint; \
       mkdir -p /checkpoint/etc;
 
-  # :: copy root filesystem changes
-    COPY ./rootfs /
-    RUN set -ex; \
-      chmod +x -R /usr/local/bin
-
   # :: copy root filesystem changes and add execution rights to init scripts
     COPY ./rootfs /
     RUN set -ex; \
-      chmod +x -R /usr/local/bin
+      chmod +x -R /usr/local/bin;
 
   # :: change home path for existing user and set correct permission
     RUN set -ex; \
