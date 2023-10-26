@@ -21,8 +21,8 @@
   # https://nvd.nist.gov/vuln/detail/CVE-2023-29401⁠
   # https://nvd.nist.gov/vuln/detail/CVE-2023-26125⁠
   RUN set -ex; \
-    sed -i 's#golang.org/x/net v0.10.0#golang.org/x/net v0.17.0#g' /go/checkpointz/go.mod; \
-    sed -i 's#github.com/gin-gonic/gin v1.7.4#golang.org/x/net v1.7.7#g' /go/checkpointz/go.mod; \
+    sed -i 's#(golang.org/x/net) v0.10.0#$1 v0.17.0#g' /go/checkpointz/go.mod; \
+    sed -i 's#(github.com/gin-gonic/gin) v1.7.4#$1 v1.7.7#g' /go/checkpointz/go.mod; \
     cd /go/checkpointz; \
     go mod tidy;
 
