@@ -14,10 +14,15 @@
     git checkout ${APP_VERSION};
 
   # fix security
-  # https://nvd.nist.gov/vuln/detail/CVE-2022-41721⁠
-  # https://nvd.nist.gov/vuln/detail/CVE-2022-27664⁠
+  # https://nvd.nist.gov/vuln/detail/CVE-2023-44487⁠
+  # https://nvd.nist.gov/vuln/detail/CVE-2023-3978⁠
+  # https://nvd.nist.gov/vuln/detail/CVE-2023-39325⁠
+  # https://nvd.nist.gov/vuln/detail/CVE-2020-28483⁠
+  # https://nvd.nist.gov/vuln/detail/CVE-2023-29401⁠
+  # https://nvd.nist.gov/vuln/detail/CVE-2023-26125⁠
   RUN set -ex; \
-    sed -i 's#golang.org/x/net v0.0.0-[0-9]\+-[0-9a-f]\+#golang.org/x/net v0.7.0#g' /go/checkpointz/go.mod; \
+    sed -i 's#golang.org/x/net v0.10.0#golang.org/x/net v0.17.0#g' /go/checkpointz/go.mod; \
+    sed -i 's#github.com/gin-gonic/gin v1.7.4#golang.org/x/net v1.7.7#g' /go/checkpointz/go.mod; \
     cd /go/checkpointz; \
     go mod tidy;
 

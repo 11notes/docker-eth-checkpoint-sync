@@ -26,8 +26,7 @@ docker run --name eth-checkpoint-sync \
 * [Alpine Linux](https://alpinelinux.org/)
 
 ## Tipps
-* Use a webproxy to terminate the SSL connection and proxy to :5555 of this container (like nginx)
+* Only use rootless container runtime (podman, rootless docker)
+* Don't bind to ports < 1024 (requires root), use NAT/reverse proxy (haproxy, traefik, nginx)
 * If you use eth-checkpoint-sync and want to provide states, you need a eth-checkpoint-sync synced from genesis (~5M blocks)!
-* Use [telegraf](https://github.com/influxdata/telegraf) to export :9090 to [influxdb](https://github.com/influxdata/influxdb)
-* Don't bind to ports < 1024 (requires root), use NAT/reverse proxy
-* [Permanent Stroage](https://github.com/11notes/alpine-docker-netshare) - Module to store permanent container data via NFS/CIFS and more
+* Use [telegraf](https://hub.docker.com/r/11notes/telegraf) to export :9090 to [influxdb](https://hub.docker.com/r/11notes/influxdb)
